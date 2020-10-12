@@ -1,0 +1,43 @@
+class Sintegrator:
+    """A class for Simpson rule integration(numerical integration)for functions without a gven table of value
+    ; xi is the lower value of x (the independent variable), x2 is upper value and count1 is the number of 
+    divisions for integration ) """
+    import math
+    x1  = 0       #initial value of x
+    x2   = 0      #upper value of x
+    count1 = 1    #number of division for x range
+    yini = 0.0    #initial value of y
+    count2 = 0    #for iteration
+    yod = 0.0     #odd values of y
+    yev = 0.0     #even values of y
+    dv = 0.0
+    
+    def __init__(self, x1, x2, count1):
+        self.x1  = x1
+        self.x2  = x2
+        self.count1 = count1
+    y = (1/math.sqrt(1-0.5*(math.sin(x1)*math.sin(x1)))) #New function is entered here for different calculation
+    yini = y
+   
+    def cal(self):
+        global dv, count2, y, yod, yev
+        dv = (self.x2-self.x1)/self.count1    #value of a division
+        count2 =  0
+        yod = 0
+        yev = 0
+        while count2 < self.count1:
+            count2 +=  1
+            self.x1 += dv
+            y = (1/math.sqrt(1-0.5*(math.sin(self.x1)*math.sin(self.x1))))     #New function is entered here for different calculation
+            if count2 % 2 != 0:
+                yod += y
+            else:
+                yev += y
+        return (dv/3*(Sintegrator.yini + y + 4*yod + 2*(yev - y)))
+    
+
+#This class is applied as follows:
+#solver is an instance of the class
+import math
+solver = Sintegrator(0,math.pi/2,6) 
+solver.cal()
